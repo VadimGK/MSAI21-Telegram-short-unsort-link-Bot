@@ -15,7 +15,7 @@ db = Database()
 db = Database("sqlite", "estore.sqlite", create_db=True)
 
 
-class Person(db.Entity):
+class ShortLink(db.Entity):
     short_link = Required(str)
 
 
@@ -92,14 +92,14 @@ def button(update, context):
         else:
             query.edit_message_text("Shorted url 👇🏼:\n" + str(response))
             link = ''
-            Person(short_link=str(response))
+            ShortLink(short_link=str(response))
             commit()
 
 
 
 @db_session
 def history(update, context):
-    persons = select(p for p in Person)[:]
+    persons = select(p for p in ShortLink)[:]
     res = ''
     for i in persons:
         res = '\n' + i.short_link + res
