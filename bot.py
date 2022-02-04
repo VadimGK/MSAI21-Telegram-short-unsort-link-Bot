@@ -99,9 +99,9 @@ def button(update, context):
 
 @db_session
 def history(update, context):
-    persons = select(p for p in ShortLink)[:]
+    short_links = select(p for p in ShortLink)[:]
     res = ''
-    for i in persons:
+    for i in short_links:
         res = '\n' + i.short_link + res
     update.message.reply_text(f'This are all short links that I made: {res}')
 
