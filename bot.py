@@ -118,7 +118,7 @@ def tree_factorial(n):
 
 
 def factorial(update, context):
-    k = int(random.uniform(0, 1000))
+    k = int(random.randint(0, 1000))
     f = tree_factorial(k)
     update.message.reply_text(f'Factorial {k} :\n{f}' +
                               '\n🔥🔥🔥🔥🔥Haaaaa!!!!! Very cool!!!!!🔥🔥🔥🔥' + '\nIsn\'t it?')
