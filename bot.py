@@ -79,12 +79,12 @@ def button(update, context):
     global link
     query = update.callback_query
     query.answer()
-    a = query.data
-    if a == "unshort":
+    command = query.data
+    if command == "unshort":
         unshortener = UnshortenIt()
         uri = unshortener.unshorten(link)
         query.edit_message_text(text="Unshorted url 👇🏼 : \n" + str(uri))
-    if a == "short":
+    if command == "short":
         try:
             response = shortener.bitly.short(link)
         except pyshorteners.exceptions.ShorteningErrorException:
