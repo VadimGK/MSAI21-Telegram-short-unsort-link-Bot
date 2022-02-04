@@ -90,7 +90,7 @@ def button(update, context):
         except pyshorteners.exceptions.ShorteningErrorException:
             query.edit_message_text(text='❓👀❓👀❓ Ha! This is 👆 already short link')
         else:
-            query.edit_message_text("Shorted url 👇🏼:\n" + str(response))
+            query.edit_message_text(f'Shorted url 👇🏼:\n{str(response)}')
             link = ''
             ShortLink(short_link=str(response))
             commit()
