@@ -84,7 +84,7 @@ def button(update, context):
         unshortener = UnshortenIt()
         uri = unshortener.unshorten(link)
         query.edit_message_text(text="Unshorted url 👇🏼 : \n" + str(uri))
-    if command == "short":
+    elif command == "short":
         try:
             response = shortener.bitly.short(link)
         except pyshorteners.exceptions.ShorteningErrorException:
