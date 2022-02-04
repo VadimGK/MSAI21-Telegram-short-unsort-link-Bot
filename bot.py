@@ -7,7 +7,7 @@ import re
 from pony.orm import *
 import random
 
-link = ''
+dict_users_links = {}
 
 shortener = pyshorteners.Shortener(api_key='...')
 
@@ -56,10 +56,11 @@ def help(update, context):
 
 
 def convert(update, context):
-    global link
     link = update.message.text
     pattern1 = "https://*"
     pattern2 = "http://*"
+    user = update.message.from_user
+    dict_users_links[user['id']] = link
     if (re.search(pattern1, link)) or (re.search(pattern2, link)):
         keyboard = [[InlineKeyboardButton("Short", callback_data='short'),
                      InlineKeyboardButton("Unshort", callback_data='unshort')]]
@@ -76,10 +77,11 @@ def convert(update, context):
 
 @db_session
 def button(update, context):
-    global link
     query = update.callback_query
     query.answer()
     command = query.data
+    user_id = update.callback_query.message.chat['id']
+    link = dict_users_links[user_id]
     if command == "unshort":
         unshortener = UnshortenIt()
         uri = unshortener.unshorten(link)
@@ -90,8 +92,7 @@ def button(update, context):
         except pyshorteners.exceptions.ShorteningErrorException:
             query.edit_message_text(text='❓👀❓👀❓ Ha! This is 👆 already short link')
         else:
-            query.edit_message_text(f'Shorted url 👇🏼:\n{str(response)}')
-            link = ''
+            query.edit_message_text(f'Shorted url 👇🏼:\n{str(response)}')            
             ShortLink(short_link=str(response))
             commit()
 
