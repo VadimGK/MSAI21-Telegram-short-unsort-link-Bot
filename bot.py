@@ -100,10 +100,8 @@ def button(update, context):
 @db_session
 def history(update, context):
     short_links = select(p for p in ShortLink)[:]
-    res = ''
-    for i in short_links:
-        res = '\n' + i.short_link + res
-    update.message.reply_text(f'This are all short links that I made: {res}')
+    res = '\n'.join(i.short_link for i in reversed(short_links))
+    update.message.reply_text(f'This are all short links that I made: \n{res}')
 
 
 def prod_tree(l, h):
